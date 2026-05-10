@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molab - Final Assignment</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --molab-green: #20c997; 
+            --molab-dark: #0a102e;  
+            --molab-purple: #7a63f1; 
+            --molab-beige: #fbf9f4; 
+            --molab-text: #6b7280;
+            --molab-footer: #060b27;
+        }
+
+        body { font-family: 'Inter', sans-serif; color: var(--molab-text); }
+        h1, h2, h3, h4, h5, h6, .text-dark { color: var(--molab-dark) !important; font-weight: 700; }
+        .text-green { color: var(--molab-green) !important; }
+        .bg-green { background-color: var(--molab-green) !important; }
+        .bg-beige { background-color: var(--molab-beige) !important; }
+        
+        .btn-green { background-color: var(--molab-green); color: white; padding: 10px 24px; font-weight: 600; border: none; border-radius: 4px; transition: 0.3s; }
+        .btn-green:hover { background-color: #1ba87e; color: white; }
+
+        /* Navigation */
+        .top-bar { font-size: 13px; border-bottom: 1px solid #eee; padding: 10px 0; }
+        .top-bar a { color: var(--molab-text); text-decoration: none; margin-left: 20px; }
+        .navbar { padding: 15px 0; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .navbar-brand { font-weight: 800; font-size: 24px; color: var(--molab-dark) !important; letter-spacing: 1px; }
+        .nav-link { font-weight: 500; color: var(--molab-dark) !important; font-size: 15px; margin: 0 10px; }
+        .nav-icon-btn { background-color: var(--molab-green); color: white; padding: 10px 15px; border-radius: 4px; border: none; margin-left: 5px; }
+
+        /* Hero */
+        .hero-section { background-color: var(--molab-beige); padding: 120px 0 60px; position: relative; overflow: hidden; text-align: center; }
+        .hero-title { font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 30px; }
+        .hero-search { max-width: 600px; margin: 0 auto; position: relative; }
+        .hero-search input { padding: 18px 25px; border: none; border-radius: 8px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); outline: none;}
+        .hero-search i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--molab-green); font-size: 20px; font-weight: bold;}
+        
+        /* Styled Real Images for Hero */
+        .hero-img-left { position: absolute; left: 2%; bottom: 0; width: 280px; height: 380px; object-fit: cover; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); z-index: 0; }
+        .hero-img-right { position: absolute; right: 2%; bottom: 5%; width: 250px; height: 320px; object-fit: cover; border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); z-index: 0; }
+
+        /* Features & Courses */
+        .feature-box { border-bottom: 1px solid #eaeaea; padding: 0 0 50px; background: var(--molab-beige); }
+        .feature-item { display: flex; align-items: flex-start; gap: 15px; }
+        .feature-icon { font-size: 40px; color: var(--molab-green); line-height: 1; }
+        
+        .course-card { border: none; box-shadow: 0 5px 20px rgba(0,0,0,0.03); border-radius: 8px; transition: 0.3s; overflow: hidden; }
+        .course-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.08); transform: translateY(-5px); }
+        .course-img { position: relative; }
+        .course-img img { width: 100%; height: 220px; object-fit: cover; border-radius: 8px; }
+        .price-tag { position: absolute; bottom: 0; right: 0; background: var(--molab-purple); color: white; padding: 8px 20px; font-weight: 600; font-size: 18px; border-top-left-radius: 8px; }
+        .course-footer { border-top: 1px solid #eee; padding-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+
+        /* Contact Section */
+        .contact-section { background-color: #f4f7f9; padding: 100px 0; position: relative; overflow: hidden; }
+        .contact-form-wrapper { position: relative; z-index: 2; margin-top: 40px; }
+        .contact-header { background: var(--molab-green); color: white; padding: 40px; position: relative; z-index: 3; box-shadow: 0 10px 30px rgba(32, 201, 151, 0.3); border-radius: 8px 8px 0 0; }
+        .contact-form-body { background: white; padding: 50px 40px 40px; margin-top: -10px; position: relative; z-index: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-radius: 0 0 8px 8px; }
+        .contact-form-body input, .contact-form-body textarea { background: #f9f9f9; border: 1px solid #eee; border-radius: 4px; padding: 15px; margin-bottom: 20px; width: 100%; outline: none; }
+
+        /* Testimonials */
+        .testimonial-img-wrapper { position: relative; display: inline-block; }
+        .testimonial-shape-green { position: absolute; left: -20px; bottom: 0; width: 100px; height: 200px; background: var(--molab-green); border-top-right-radius: 100px; z-index: 0; }
+        .testimonial-shape-beige { position: absolute; right: -20px; bottom: 0; width: 150px; height: 150px; background: var(--molab-beige); border-top-left-radius: 100px; z-index: 0; }
+        .testimonial-img { position: relative; z-index: 1; border-radius: 10px; object-fit: cover; height: 400px; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);}
+        .quote-icon { font-size: 80px; color: #e9e3d5; line-height: 1; font-family: serif; }
+        .testi-nav-btn { width: 40px; height: 40px; border-radius: 50%; background: #f4f4f4; border: none; color: var(--molab-dark); margin-right: 10px; transition: 0.3s; }
+        .testi-nav-btn:hover { background: var(--molab-green); color: white; }
+
+        /* FAQ Accordion */
+        .accordion-button:not(.collapsed) { background-color: var(--molab-green) !important; color: white !important; box-shadow: none; font-weight: bold; }
+        .accordion-button:not(.collapsed)::after { filter: brightness(0) invert(1); }
+        .accordion-button { font-weight: 600; color: var(--molab-dark); padding: 20px; }
+        .accordion-item { border: 1px solid #eee; margin-bottom: 10px; border-radius: 8px !important; overflow: hidden; }
+
+        /* Events */
+        .event-card { background: var(--molab-beige); padding: 25px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; border: 1px dashed #e2ddce; transition: 0.3s; }
+        .event-card:hover { border-color: var(--molab-green); }
+        .event-date { padding-right: 20px; margin-right: 20px; border-right: 1px dashed #ccc; min-width: 80px; text-align: center; }
+        .event-date span.day { color: var(--molab-green); font-weight: 600; display: block; }
+        .event-date span.year { font-weight: 800; color: var(--molab-dark); font-size: 1.2rem; }
+        .event-details h6 { color: var(--molab-dark); margin-bottom: 10px; font-weight: 700; }
+        .event-details p { margin: 0; font-size: 0.85rem; color: var(--molab-text); }
+
+        /* Footer */
+        .footer { background-color: var(--molab-footer); color: #a1a5b5; padding: 80px 0 30px; font-size: 14px; }
+        .footer h5 { color: white; font-weight: 700; margin-bottom: 25px; }
+        .footer ul { list-style: none; padding: 0; }
+        .footer ul li { margin-bottom: 15px; }
+        .footer ul li a { color: #a1a5b5; text-decoration: none; transition: 0.3s; }
+        .footer ul li a:hover { color: var(--molab-green); }
+        .footer ul li::before { content: "■"; color: var(--molab-green); font-size: 8px; margin-right: 10px; vertical-align: middle; }
+        .footer .social-icons a { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: rgba(255,255,255,0.1); color: white; margin-right: 10px; border-radius: 4px; transition: 0.3s; }
+        .footer .social-icons a:hover { background: var(--molab-green); }
+        .footer-contact li { display: flex; align-items: flex-start; margin-bottom: 20px; }
+        .footer-contact li i { color: var(--molab-green); font-size: 18px; margin-right: 15px; }
+        .footer-contact li::before { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar d-none d-lg-block">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-4">
+                <span><i class="bi bi-telephone text-green me-2"></i> +1(135) 1984 2020</span>
+                <span><i class="bi bi-envelope text-green me-2"></i> hello@molab.com</span>
+            </div>
+            <div>
+                <a href="#">Become An Instructor</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand text-green" href="#"><i class="bi bi-mortarboard-fill me-2"></i>MOLAB</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Courses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pages</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                </ul>
+                <div class="d-flex">
+                    <a href="#" class="btn-green">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=380&q=80" alt="Students" class="hero-img-left d-none d-lg-block">
+        <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=320&q=80" alt="Studying" class="hero-img-right d-none d-lg-block">
+        
+        <div class="container position-relative z-1">
+            <div class="mb-3 text-center">
+                <h6 class="text-green text-uppercase fw-bold letter-spacing-1 mt-4">For A Better Future</h6>
+            </div>
+            <h1 class="hero-title">Make Your Dream Come True<br>With Our Course</h1>
+            <div class="hero-search mt-5 mb-5">
+                <input type="text" placeholder="What do you want to learn?">
+                <i class="bi bi-search"></i>
+            </div>
+            
+            <div class="mt-5 pt-4">
+                <p class="text-dark fw-bold mb-4 fs-5">Join Businesses Around The World Who Believe In <span class="text-green">Molab</span></p>
+                <div class="d-flex justify-content-center align-items-center flex-wrap opacity-75">
+                    <img src="partner-logos.png" alt="University Partners" class="img-fluid" style="max-height: 50px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="feature-box">
+        <div class="container">
+            <div class="row pt-5">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-item">
+                        <i class="bi bi-journal-text feature-icon"></i>
+                        <div>
+                            <h5 class="text-dark">Expedite Learning</h5>
+                            <p class="mb-0 small text-muted">Adopting fast learning techniques by real-world experts</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-item">
+                        <i class="bi bi-box-seam feature-icon"></i>
+                        <div>
+                            <h5 class="text-dark">Open-source Platform</h5>
+                            <p class="mb-0 small text-muted">The worlds learning open-source platform that helps your career</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-item">
+                        <i class="bi bi-speedometer2 feature-icon"></i>
+                        <div>
+                            <h5 class="text-dark">Maximum Efficiency</h5>
+                            <p class="mb-0 small text-muted">Learning from the course has the potential to achieve maximum efficiency</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 my-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="pe-4 position-relative">
+                        <div class="bg-beige position-absolute top-0 end-0 bottom-0 w-50 z-n1 rounded"></div>
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80" alt="About" class="img-fluid rounded shadow">
+                    </div>
+                </div>
+                <div class="col-lg-7 ps-lg-5">
+                    <h2 class="mb-4" style="font-size: 2.5rem;">We Share Knowledge Among The<br>World</h2>
+                    <p class="mb-4 text-muted">Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Proin eget tortor risus. Sed porttitor lectus nibh. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</p>
+                    <div class="d-flex mt-4">
+                        <div class="quote-icon me-3" style="color: #e9e3d5; font-family: serif; font-size: 80px; line-height: 1;">“</div>
+                        <div>
+                            <p class="fst-italic text-dark mb-4">Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Proin eget tortor risus. Sed porttitor lectus nibh. Praesent sapien massa. Quisque velit nisi, pretium ut lacinia in elementum id enim.</p>
+                            <h6 class="mb-1 text-dark">Lance Altman</h6>
+                            <span class="small text-muted">Founder, CEO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <div class="bg-green rounded d-flex align-items-center justify-content-between p-5 position-relative overflow-hidden shadow-lg">
+            <div class="text-white z-1">
+                <p class="fw-bold mb-2">Study at Your Own Pace</p>
+                <h2 class="text-white m-0" style="font-size: 2.5rem;">Enhance Your Career By Following<br>Our Online Courses</h2>
+            </div>
+            <div class="z-1 d-flex align-items-center gap-4">
+                <button class="btn btn-light text-dark fw-bold px-4 py-3 rounded">Get Started</button>
+            </div>
+            <i class="bi bi-mortarboard-fill position-absolute end-0 text-white" style="font-size: 200px; opacity: 0.1; right: -20px; top: -50px;"></i>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 style="font-size: 2.5rem;">Popular Courses</h2>
+            </div>
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card course-card h-100 p-3 pb-0">
+                        <div class="course-img">
+                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80" alt="Web Dev">
+                            <span class="price-tag">$15</span>
+                        </div>
+                        <div class="card-body px-0 py-4">
+                            <h5 class="card-title mb-3">Complete Guideline From Zero To Hero In Web Development</h5>
+                            <div class="d-flex gap-3 mb-4 small course-meta text-muted">
+                                <span><i class="bi bi-clock text-green"></i> 30/01/23</span>
+                                <span><i class="bi bi-people text-green"></i> 1 Students</span>
+                            </div>
+                            <div class="course-footer">
+                                <span class="text-muted small fw-bold">John Smith</span>
+                                <button class="btn-green py-1 px-3" style="font-size: 12px; border-radius: 2px;">See Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card course-card h-100 p-3 pb-0">
+                        <div class="course-img">
+                            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=400&q=80" alt="Finance">
+                            <span class="price-tag">$14</span>
+                        </div>
+                        <div class="card-body px-0 py-4">
+                            <h5 class="card-title mb-3 text-green">Finance Fundamentals - Easy Guide To Better Finances</h5>
+                            <div class="d-flex gap-3 mb-4 small course-meta text-muted">
+                                <span><i class="bi bi-clock text-green"></i> 30/01/23</span>
+                                <span><i class="bi bi-people text-green"></i> 1 Students</span>
+                            </div>
+                            <div class="course-footer">
+                                <span class="text-muted small fw-bold">John Smith</span>
+                                <button class="btn-green py-1 px-3" style="font-size: 12px; border-radius: 2px;">See Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card course-card h-100 p-3 pb-0">
+                        <div class="course-img">
+                            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&q=80" alt="Medical">
+                            <span class="price-tag">$50</span>
+                        </div>
+                        <div class="card-body px-0 py-4">
+                            <h5 class="card-title mb-3">Medical Terminology - Start Basic Learning Course</h5>
+                            <div class="d-flex gap-3 mb-4 small course-meta text-muted">
+                                <span><i class="bi bi-clock text-green"></i> 20/09/23</span>
+                                <span><i class="bi bi-people text-green"></i> 1 Students</span>
+                            </div>
+                            <div class="course-footer">
+                                <span class="text-muted small fw-bold">John Smith</span>
+                                <button class="btn-green py-1 px-3" style="font-size: 12px; border-radius: 2px;">See Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card course-card h-100 p-3 pb-0">
+                        <div class="course-img">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=400&q=80" alt="Photography">
+                            <span class="price-tag">$99</span>
+                        </div>
+                        <div class="card-body px-0 py-4">
+                            <h5 class="card-title mb-3">Photography Is A Complete Guideline For Easy Learning</h5>
+                            <div class="d-flex gap-3 mb-4 small course-meta text-muted">
+                                <span><i class="bi bi-clock text-green"></i> 30/01/23</span>
+                                <span><i class="bi bi-people text-green"></i> 1 Students</span>
+                            </div>
+                            <div class="course-footer">
+                                <span class="text-muted small fw-bold">John Smith</span>
+                                <button class="btn-green py-1 px-3" style="font-size: 12px; border-radius: 2px;">See Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card course-card h-100 p-3 pb-0">
+                        <div class="course-img">
+                            <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80" alt="Robotics">
+                            <span class="price-tag">$25</span>
+                        </div>
+                        <div class="card-body px-0 py-4">
+                            <h5 class="card-title mb-3">Successful Course: Robot Humanoid Walk An Upstairs Success</h5>
+                            <div class="d-flex gap-3 mb-4 small course-meta text-muted">
+                                <span><i class="bi bi-clock text-green"></i> 30/01/23</span>
+                                <span><i class="bi bi-people text-green"></i> 1 Students</span>
+                            </div>
+                            <div class="course-footer">
+                                <span class="text-muted small fw-bold">John Smith</span>
+                                <button class="btn-green py-1 px-3" style="font-size: 12px; border-radius: 2px;">See Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card course-card h-100 p-3 pb-0">
+                        <div class="course-img">
+                            <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=400&q=80" alt="Machine Learning">
+                            <span class="price-tag">$56</span>
+                        </div>
+                        <div class="card-body px-0 py-4">
+                            <h5 class="card-title mb-3">Machine Learning A-z. Data Science And Machine Learning</h5>
+                            <div class="d-flex gap-3 mb-4 small course-meta text-muted">
+                                <span><i class="bi bi-clock text-green"></i> 30/01/23</span>
+                                <span><i class="bi bi-people text-green"></i> 1 Students</span>
+                            </div>
+                            <div class="course-footer">
+                                <span class="text-muted small fw-bold">John Smith</span>
+                                <button class="btn-green py-1 px-3" style="font-size: 12px; border-radius: 2px;">See Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section mt-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
+                    <h2 style="font-size: 2.8rem; line-height: 1.2;">Learn At Your Own Pace, With Lifetime Access Anywhere And Any Device</h2>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="contact-form-wrapper">
+                        <div class="contact-header">
+                            <h2 class="text-white mb-2">Contact Now</h2>
+                            <p class="text-white mb-0">More than 100 Courses are free for this month</p>
+                        </div>
+                        <div class="contact-form-body">
+                            <form>
+                                <input type="text" placeholder="Your Name">
+                                <input type="email" placeholder="Email">
+                                <textarea rows="4" placeholder="Message"></textarea>
+                                <button type="submit" class="btn-green w-100 py-3 mt-2">Submit Now</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 my-5">
+        <div class="container">
+            <div class="text-center mb-5 pb-4">
+                <h2 style="font-size: 2.5rem;">What Our Happy Student Say</h2>
+            </div>
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row align-items-center">
+                            <div class="col-lg-5 text-center text-lg-start mb-4 mb-lg-0">
+                                <div class="testimonial-img-wrapper">
+                                    <div class="testimonial-shape-green"></div>
+                                    <div class="testimonial-shape-beige"></div>
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=350&q=80" class="img-fluid testimonial-img shadow" alt="James Katliv">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 offset-lg-1">
+                                <div class="quote-icon mb-2" style="color: #e9e3d5; font-family: serif; font-size: 80px; line-height: 1;">“</div>
+                                <p class="text-dark fw-bold fs-5 mb-4 line-height-lg">"Nulla porttitor accumsan tincidunt. Curabitur aliquet quam id dui posuere blandit. Quisque velit nisi, pretium ut lacinia in, elementum id enim."</p>
+                                <h5 class="mb-1 text-dark">James katliv</h5>
+                                <p class="text-muted small mb-4">Student</p>
+                                <div>
+                                    <button class="testi-nav-btn" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
+                                    <button class="testi-nav-btn" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row align-items-center">
+                            <div class="col-lg-5 text-center text-lg-start mb-4 mb-lg-0">
+                                <div class="testimonial-img-wrapper">
+                                    <div class="testimonial-shape-green"></div>
+                                    <div class="testimonial-shape-beige"></div>
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=350&q=80" class="img-fluid testimonial-img shadow" alt="Alex Dew">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 offset-lg-1">
+                                <div class="quote-icon mb-2" style="color: #e9e3d5; font-family: serif; font-size: 80px; line-height: 1;">“</div>
+                                <p class="text-dark fw-bold fs-5 mb-4 line-height-lg">"Nulla porttitor accumsan tincidunt. Curabitur aliquet quam id dui posuere blandit. Quisque velit nisi, pretium ut lacinia in, elementum id enim."</p>
+                                <h5 class="mb-1 text-dark">Alex Dew</h5>
+                                <p class="text-muted small mb-4">Student Gardant</p>
+                                <div>
+                                    <button class="testi-nav-btn" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
+                                    <button class="testi-nav-btn" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 my-5">
+        <div class="container">
+            <h2 class="text-center mb-5" style="font-size: 2.5rem;">Frequently Asked Questions</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-7 mb-4 mb-lg-0">
+                    <div class="accordion shadow-sm" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
+                                    How Do We Create Course Content?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Curabitur aliquet quam id dui posuere blandit. Cras ultricies ligula sed magna dictum porta. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false">
+                                    How Do I Reset My Account Password?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Curabitur aliquet quam id dui posuere blandit. Cras ultricies ligula sed magna dictum porta.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false">
+                                    How Can I Manage My Account?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Curabitur aliquet quam id dui posuere blandit. Cras ultricies ligula sed magna dictum porta.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false">
+                                    What Are The Benefits Of Lemy Learning?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Curabitur aliquet quam id dui posuere blandit. Cras ultricies ligula sed magna dictum porta.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false">
+                                    Is Support For Learners Included?
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Curabitur aliquet quam id dui posuere blandit. Cras ultricies ligula sed magna dictum porta.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&q=80" alt="Meditating" class="img-fluid rounded-circle shadow-lg" style="width: 350px; height: 350px; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 pe-lg-5 mb-5 mb-lg-0">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="event-card bg-white shadow-sm border-0">
+                                <div class="event-date">
+                                    <span class="day">1 Jan</span>
+                                    <span class="year">2024</span>
+                                </div>
+                                <div class="event-details">
+                                    <h6>Current Design Strategies</h6>
+                                    <p><strong>Location:</strong> San Jose, CA</p>
+                                    <p class="mt-1"><strong>Speaker:</strong> Paul Ness</p>
+                                </div>
+                            </div>
+                            <div class="event-card bg-white shadow-sm border-0">
+                                <div class="event-date">
+                                    <span class="day">31 Jan</span>
+                                    <span class="year">2024</span>
+                                </div>
+                                <div class="event-details">
+                                    <h6>AI & Web Design</h6>
+                                    <p><strong>Location:</strong> San Jose, CA</p>
+                                    <p class="mt-1"><strong>Speaker:</strong> Paul Ness</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-md-4">
+                            <div class="event-card bg-white shadow-sm border-0">
+                                <div class="event-date">
+                                    <span class="day">31 Jan</span>
+                                    <span class="year">2024</span>
+                                </div>
+                                <div class="event-details">
+                                    <h6>JavaScript A Language</h6>
+                                    <p><strong>Location:</strong> San Jose, CA</p>
+                                    <p class="mt-1"><strong>Speaker:</strong> Paul Ness</p>
+                                </div>
+                            </div>
+                            <div class="event-card bg-white shadow-sm border-0">
+                                <div class="event-date">
+                                    <span class="day">31 Jan</span>
+                                    <span class="year">2024</span>
+                                </div>
+                                <div class="event-details">
+                                    <h6>Future Of Design & Web</h6>
+                                    <p><strong>Location:</strong> San Jose, CA</p>
+                                    <p class="mt-1"><strong>Speaker:</strong> Paul Ness</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 ps-lg-5">
+                    <h2 class="mb-4" style="font-size: 2.5rem;">Upcoming Events<br>Schedule</h2>
+                    <p class="text-muted mb-4">Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Proin eget tortor risus.</p>
+                    <a href="#" class="btn-green">All Courses</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 mt-5 bg-white">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-6">
+                    <div class="mb-4"><i class="bi bi-envelope-paper-heart text-green" style="font-size: 4rem;"></i></div>
+                    <h2 class="mb-3" style="font-size: 2.5rem;">Join Our Community</h2>
+                    <p class="text-muted mb-4 small">Stay ahead of the game and stay informed with our latest news and exclusive offers.<br>Sign up for our newsletter now and get it all delivered straight to your inbox.</p>
+                    <form class="d-flex justify-content-center">
+                        <input type="email" class="form-control me-2 bg-beige border-0" placeholder="Email address" style="max-width: 300px; padding: 12px 20px;">
+                        <button type="submit" class="btn-green">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 pe-lg-5">
+                    <h5 class="mb-4" style="font-size: 24px;">Molab</h5>
+                    <p class="mb-4" style="color: #a1a5b5; line-height: 1.8;">Vivamus suscipit tortor eget felis porttitor volutpat. Donec rutrum congue leo eget malesuada. Curabitu Nulla porttitor accumsan tincidunt.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    Waitlist Popular Courses
+                    <ul>
+                        <li><a href="#">Computer Science</a></li>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Design</a></li>
+                        <li><a href="#">Marketing</a></li>
+                        <li><a href="#">Photography</a></li>
+                        <li><a href="#">Business</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    Waitlist Company
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Courses</a></li>
+                        <li><a href="#">Instructor</a></li>
+                        <li><a href="#">Review</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5>Contact Info</h5>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="bi bi-geo-alt"></i>
+                            <span>07 Boroughbridge Road BISLEY<br>GL6 5PA</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-telephone"></i>
+                            <span>+1(135) 1984 2020</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-envelope-check"></i>
+                            <span>hello@molab.com</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-clock"></i>
+                            <span>(8 AM - 7 PM, Monday - Friday)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-5 pt-4 border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+                <p class="mb-0 small">© Molab. is Proudly Owned by EnvyTheme</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
